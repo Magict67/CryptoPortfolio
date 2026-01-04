@@ -1,6 +1,7 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.portfolio_list, name='portfolio_list'),
+    path('admin/', admin.site.admin),
+    path('', include('portfolio.urls')), # connects app to main site
 ]
