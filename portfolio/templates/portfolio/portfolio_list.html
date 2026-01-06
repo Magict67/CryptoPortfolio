@@ -29,7 +29,7 @@
             <tr>
                 <td>{{ coin.name }}</td>
                 <td>{{ coin.symbol }}</td>
-                <td>{{ coin.quantity }}</td>
+                <td>{{ coin.quantity|floatformat:2 }}</td>
                 <td>${{ coin.price_purchased }}</td>
                 <td>${{ coin.current_value|floatformat:2 }}</td>
                 
