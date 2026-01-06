@@ -13,12 +13,14 @@ def portfolio_list(request):
     except:
         live_price = 0
 
-    # NEW: Calculate values for each coin
     for coin in coins:
-        # If it's Bitcoin, calculate the value
         if coin.symbol.upper() == 'BTC':
-            coin.current_value = float(coin.quantity) * live_price
-            coin.profit = coin.current_value - (float(coin.quantity) * float(coin.price_purchased))
+            # Make floats for math
+            qty = float(coin.quantity)
+            bought_at = float(coin.price_purchased)
+            
+            coin.current_value = qty * live_price
+            coin.profit = coin.current_value - (qty * bought_at)
         else:
             coin.current_value = 0
             coin.profit = 0
