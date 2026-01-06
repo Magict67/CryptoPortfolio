@@ -13,14 +13,14 @@
 <body>
     <h1>My Crypto Holdings</h1>
     <h3>Current Bitcoin Price: ${{ live_price }}</h3>
-    <table>
+<table>
         <thead>
             <tr>
                 <th>Coin</th>
                 <th>Symbol</th>
                 <th>Quantity</th>
                 <th>Purchase Price</th>
-            </tr>
+                <th>Current Value</th> <th>Profit/Loss</th>   </tr>
         </thead>
         <tbody>
             {% for coin in coins %}
@@ -29,10 +29,10 @@
                 <td>{{ coin.symbol }}</td>
                 <td>{{ coin.quantity }}</td>
                 <td>${{ coin.price_purchased }}</td>
-            </tr>
+                <td>${{ coin.current_value|floatformat:2 }}</td> <td>${{ coin.profit|floatformat:2 }}</td>        </tr>
             {% empty %}
             <tr>
-                <td colspan="4">No coins added yet. Go to the Admin panel to add some!</td>
+                <td colspan="6">No coins added yet.</td>
             </tr>
             {% endfor %}
         </tbody>
