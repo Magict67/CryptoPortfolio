@@ -25,13 +25,18 @@
                 <th>Current Value</th> <th>Profit/Loss</th>   </tr>
         </thead>
         <tbody>
-            {% for coin in coins %}
+{% for coin in coins %}
             <tr>
                 <td>{{ coin.name }}</td>
                 <td>{{ coin.symbol }}</td>
                 <td>{{ coin.quantity }}</td>
                 <td>${{ coin.price_purchased }}</td>
-                <td>${{ coin.current_value|floatformat:2 }}</td> <td>${{ coin.profit|floatformat:2 }}</td>        </tr>
+                <td>${{ coin.current_value|floatformat:2 }}</td>
+                
+                <td class="{% if coin.profit >= 0 %}profit{% else %}loss{% endif %}">
+                    ${{ coin.profit|floatformat:2 }}
+                </td>
+            </tr>
             {% empty %}
             <tr>
                 <td colspan="6">No coins added yet.</td>
