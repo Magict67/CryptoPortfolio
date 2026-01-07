@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect  # Combined these at the top
+from django.shortcuts import render, redirect  # Combined at top
 from .models import Coin
 import requests
 
@@ -33,7 +33,7 @@ def portfolio_list(request):
         'total_value': total_portfolio_value
     })
 
-# This starts all the way at the left margin
+# start at the left margin
 def add_coin(request):
     if request.method == "POST":
         name = request.POST.get('name')
