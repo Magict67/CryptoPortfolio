@@ -27,5 +27,6 @@ def portfolio_list(request):
 
     return render(request, 'portfolio/portfolio_list.html', {
         'coins': coins, 
-        'live_price': live_price
+        'live_price': live_price,
+        'total_value': total_portfolio_value
     })
