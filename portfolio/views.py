@@ -1,39 +1,41 @@
-from django.shortcuts import render, redirect  # Combined at top
+from django.shortcuts import render, redirect
 from .models import Coin
 import requests
 
 def portfolio_list(request):
     coins = Coin.objects.all()
-    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+    
+    # We ask for BOTH bitcoin and ethereum prices in one go
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
     
     try:
         response = requests.get(url)
         data = response.json()
-        live_price = data['bitcoin']['usd']
+        prices = {
+            'BTC': data.get('bitcoin', {}).get('usd', 0),
+            'ETH': data.get('ethereum', {}).get('usd', 0)
+        }
     except:
-        live_price = 0
+        prices = {'BTC': 0, 'ETH': 0}
 
     total_portfolio_value = 0 
 
     for coin in coins:
-        if coin.symbol.upper() == 'BTC':
-            qty = float(coin.quantity)
-            bought_at = float(coin.price_purchased)
-            
-            coin.current_value = qty * live_price
-            coin.profit = coin.current_value - (qty * bought_at)
-            total_portfolio_value += coin.current_value 
-        else:
-            coin.current_value = 0
-            coin.profit = 0
+        # Look up the price based on the symbol (BTC or ETH)
+        live_price = prices.get(coin.symbol.upper(), 0)
+        
+        qty = float(coin.quantity)
+        bought_at = float(coin.price_purchased)
+        
+        coin.current_value = qty * live_price
+        coin.profit = coin.current_value - (qty * bought_at)
+        total_portfolio_value += coin.current_value 
 
     return render(request, 'portfolio/portfolio_list.html', {
         'coins': coins, 
-        'live_price': live_price,
         'total_value': total_portfolio_value
     })
 
-# start at the left margin
 def add_coin(request):
     if request.method == "POST":
         name = request.POST.get('name')
