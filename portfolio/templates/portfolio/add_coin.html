@@ -1,0 +1,30 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+<h1>Add a New Investment</h1>
+
+<form method="POST" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 400px;">
+    {% csrf_token %}
+    <div style="margin-bottom: 15px;">
+        <label>Coin Name:</label><br>
+        <input type="text" name="name" placeholder="e.g. Ethereum" required style="width: 100%; padding: 8px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label>Symbol:</label><br>
+        <input type="text" name="symbol" placeholder="e.g. ETH" required style="width: 100%; padding: 8px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label>Quantity:</label><br>
+        <input type="number" step="any" name="quantity" required style="width: 100%; padding: 8px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label>Price Paid ($):</label><br>
+        <input type="number" step="any" name="price_purchased" required style="width: 100%; padding: 8px;">
+    </div>
+    <button type="submit" style="background: #2c3e50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%;">
+        Save to Portfolio
+    </button>
+</form>
+
+<p style="margin-top: 20px;"><a href="{% url 'portfolio_list' %}">← Back to Portfolio</a></p>
+{% endblock %}
