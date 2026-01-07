@@ -13,14 +13,19 @@ def portfolio_list(request):
     except:
         live_price = 0
 
+    # create variable so computer recognizes
+    total_portfolio_value = 0 
+
     for coin in coins:
         if coin.symbol.upper() == 'BTC':
-            # Make floats for math
             qty = float(coin.quantity)
             bought_at = float(coin.price_purchased)
             
             coin.current_value = qty * live_price
             coin.profit = coin.current_value - (qty * bought_at)
+            
+            # This adds the math to the total
+            total_portfolio_value += coin.current_value 
         else:
             coin.current_value = 0
             coin.profit = 0
