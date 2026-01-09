@@ -5,12 +5,12 @@ import requests
 def portfolio_list(request):
     coins = Coin.objects.all()
     
-    # API URLs for current prices and 7-day history
+    # API URLs current prices and 7-day hist
     url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
     chart_url = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=daily"
     
     try:
-        # 1. Fetch Current Prices
+        # 1. get new Prices
         response = requests.get(url)
         data = response.json()
         prices = {
@@ -18,10 +18,10 @@ def portfolio_list(request):
             'ETH': data.get('ethereum', {}).get('usd', 0)
         }
         
-        # 2. Fetch Historical Data for the Chart
+        # 2. get Historical Data for Chart
         chart_response = requests.get(chart_url)
         chart_data = chart_response.json()
-        # Extracting the price values into a simple list of numbers
+        # Extracting values into number list
         prices_list = [item[1] for item in chart_data.get('prices', [])]
     except:
         prices = {'BTC': 0, 'ETH': 0}
@@ -36,7 +36,7 @@ def portfolio_list(request):
         coin.profit = coin.current_value - (qty * bought_at)
         total_portfolio_value += coin.current_value 
 
-    # We are now sending 'prices_list' to the HTML
+    # send 'prices_list' to HTML
     return render(request, 'portfolio/portfolio_list.html', {
         'coins': coins, 
         'total_value': total_portfolio_value,
