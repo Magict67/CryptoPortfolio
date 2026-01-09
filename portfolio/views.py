@@ -52,3 +52,8 @@ def add_coin(request):
         return redirect('portfolio_list')
     
     return render(request, 'portfolio/add_coin.html')
+
+def delete_coin(request, pk):
+    coin = Coin.objects.get(pk=pk)
+    coin.delete()
+    return redirect('portfolio_list')
