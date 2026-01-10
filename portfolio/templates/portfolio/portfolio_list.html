@@ -9,6 +9,11 @@
     </a>
 </div>
 
+<div style="width: 100%; max-width: 800px; margin: 20px 0; background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3 style="margin-top:0;">Bitcoin Price Trend (Last 7 Days)</h3>
+    <canvas id="bitcoinChart"></canvas>
+</div>
+
 <table>
     <thead>
         <tr>
@@ -18,7 +23,8 @@
             <th>Purchase Price</th>
             <th>Current Value</th>
             <th>Profit/Loss</th>
-            <th>Actions</th> </tr>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
         {% for coin in coins %}
@@ -33,7 +39,7 @@
             </td>
             <td>
                 <a href="{% url 'delete_coin' coin.pk %}" 
-                   onclick="return confirm('Are you sure you want to sell/remove this coin?')" 
+                   onclick="return confirm('Are you sure?')" 
                    style="color: #e74c3c; font-weight: bold; text-decoration: none;">
                    Sell
                 </a>
@@ -47,4 +53,29 @@
     Total Portfolio Value: ${{ total_value|floatformat:2 }}
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('bitcoinChart').getContext('2d');
+    const bitcoinChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            datasets: [{
+                label: 'Bitcoin Price (USD)',
+                data: {{ prices_list|safe }},  // This pulls data from your views.py
+                borderColor: '#f39c12',
+                backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: false }
+            }
+        }
+    });
+</script>
 {% endblock %}
